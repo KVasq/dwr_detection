@@ -237,6 +237,7 @@ bcp(out$PSU)
 multi_bchange <- bcp(outm)
 plot(multi_bchange)
 
+
 #correlation matrix
 library(Hmisc)
 
@@ -254,3 +255,16 @@ corrplot(cormatrix, col = col1(50))
 pal <- colorRampPalette(c('green', 'white', 'red')) (20)
 heatmap(cormatrix, col = pal, symm = TRUE)
 
+#Prophet test
+
+library(prophet)
+
+outp <- out[c(2,6)]
+
+names(outp) <- c('y', 'ds')
+
+p <- prophet(outp)
+
+future <- make_future_dataframe(p, period = 7)
+
+plot(p, predict(p, future)) + add_changepoints_to_plot(p)
